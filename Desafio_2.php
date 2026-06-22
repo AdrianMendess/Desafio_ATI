@@ -9,7 +9,7 @@ function consultarAssento($linha, $coluna)
         [1, 0, 1, 1, 0],
         [0, 1, 0, 1, 0],
     ];
-    if (($linha < 0 || $linha >= 4) || ($coluna < 0 || $coluna >= 4)) {
+    if (($linha < 0 || $linha > 4) || ($coluna < 0 || $coluna > 4)) {
         return 'POSIÇÃO INVÁLIDA!';
         //condição para apresentar mensagem caso a linha ou coluna ultrapasse o valor do indice.
     }
