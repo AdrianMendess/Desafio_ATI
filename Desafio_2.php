@@ -28,7 +28,7 @@ function exibirSituacao($linha, $coluna)
 exibirSituacao(1, 0);
 // chama a função que pede para verificar os argumentos que serão procurados e exibir a situação do valor buscado.
 
-------------------------------------------------
+// ------------------------------------------------
 
 //Primeira alternativa que tentei
   
