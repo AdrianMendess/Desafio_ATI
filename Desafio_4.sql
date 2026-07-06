@@ -1,8 +1,10 @@
 -- Active: 1782932427960@@127.0.0.1@3306@db_cnh_social
-CREATE DATABASE IF NOT EXISTS db_cnh_social; -- 1: criei banco de dados chamado db_cnh_social,
+-- 1: criei banco de dados chamado db_cnh_social
+CREATE DATABASE IF NOT EXISTS db_cnh_social; 
 use db_cnh_social; -- avisa ao sistema qual banco de dados vai ser usado nesta sessão
 
-CREATE TABLE tb_inscricoes_cnh_social (  -- 3: tabela utilizando os tipos de dado para cada coluna.
+-- 2 e 3: tabela utilizando os tipos de dado para cada coluna.
+CREATE TABLE tb_inscricoes_cnh_social (  
     cpf varchar (11)primary key,
     nis varchar(11),
     data_nascimento varchar(11),
@@ -24,8 +26,8 @@ CREATE TABLE tb_inscricoes_cnh_social (  -- 3: tabela utilizando os tipos de dad
     status_email boolean,
     data_email varchar(25)
 );
--- 4: Importei os dados do csv no heidiSQL e inseri nas tabelas.
 
+-- 4: Importei os dados do csv no heidiSQL e inseri nas tabelas.
 select * 
  from tb_inscricoes_cnh_social;
 -- 5: listar todos os registros  cadastrados.
