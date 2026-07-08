@@ -134,6 +134,16 @@ SELECT
     created_at
 FROM tb_inscricoes_cnh_social
 WHERE
+   created_at like '2025-10-03%';
+-- ou 
+SELECT
+    nome_completo,
+    cpf,
+    cidade,
+    categoria_desejada,
+    created_at
+FROM tb_inscricoes_cnh_social
+WHERE
    DATE (created_at) = '2025-10-03';
    --DATE () filtra minha pesquisa para encontrar somente a data, e não a hora.
 
@@ -146,6 +156,79 @@ SELECT
     date(data_email) as data
 FROM tb_inscricoes_cnh_social
 WHERE
+   data_email like '2025-10-06%';
+--ou
+SELECT
+    nome_completo,
+    cpf,
+    cidade,
+    categoria_desejada,
+    date(data_email) as data
+FROM tb_inscricoes_cnh_social
+WHERE
    date(data_email) = '2025-10-06';
 
 -- 16: Exibir nome, data de nascimento e idade aproximada de cada candidato.
+SELECT 
+nome_completo,
+data_nascimento,
+TIMESTAMPDIFF(year, data_nascimento, curdate()) as idade_aproximada
+from tb_inscricoes_cnh_social
+ORDER BY data_nascimento DESC;
+-- substitui o datediff, que funciona de maneira diferente no mysql, aceitando somente dias como argumento.
+
+-- 17. Contar quantos candidatos existem por cidade.
+SELECT cidade , COUNT(*) as candidatos
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade order by candidatos desc;
+
+-- 18. Contar quantos candidatos existem por bairro.
+SELECT bairro , COUNT(*) as candidatos
+FROM tb_inscricoes_cnh_social
+GROUP BY bairro order by candidatos desc;
+
+-- 19. Contar quantos candidatos existem por categoria desejada.
+SELECT categoria_desejada , COUNT(*) as candidatos
+FROM tb_inscricoes_cnh_social
+GROUP BY categoria_desejada order by candidatos desc;
+
+-- 20. Contar quantos candidatos tiveram e-mail enviado e quantos não tiveram.
+SELECT status_email , COUNT(*) as candidatos
+FROM tb_inscricoes_cnh_social
+GROUP BY status_email order by candidatos desc;
+
+--21. Contar quantos candidatos são PCD e quantos não são.
+SELECT eh_pcd , COUNT(*) as candidatos
+FROM tb_inscricoes_cnh_social
+GROUP BY eh_pcd order by candidatos desc;
+
+--22. Verificar se existe CPF duplicado.
+SELECT cpf, COUNT(*) as quantidade
+FROM tb_inscricoes_cnh_social
+group by cpf 
+having quantidade > 1;
+-- O having funciona com o group by e verifica se a quantidade será mais de um cpf, que mostraria os duplicados.
+
+-- 23. Verificar se existe NIS duplicado.
+SELECT nis, count(*) as quantidade
+FROM tb_inscricoes_cnh_social
+group by nis 
+having quantidade > 1;
+
+-- 24. Verificar se existe número de protocolo duplicado.
+SELECT numero_protocolo, count(*) as quantidade
+FROM tb_inscricoes_cnh_social
+group by numero_protocolo
+having quantidade > 1;
+
+-- 25. Listar registros com telefone vazio ou inválido.
+
+-- 26. Listar registros com e-mail vazio ou sem @.
+
+-- 27. Listar registros com CEP fora do padrão esperado.
+
+-- 28. Criar consulta exibindo Nome, CPF, Cidade, Bairro, Categoria e Situação do E-mail utilizando o CASE.
+
+-- 29. Criar relatório por cidade contendo Total de Inscritos, Total PCD e Total de E-mails enviados.
+
+-- 30. Criar consulta para identificar candidatos prioritários (PCD, maiores de idade, com email enviado e categoria preenchida).
