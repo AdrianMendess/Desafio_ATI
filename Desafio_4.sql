@@ -222,13 +222,48 @@ group by numero_protocolo
 having quantidade > 1;
 
 -- 25. Listar registros com telefone vazio ou inválido.
+ SELECT 
+ nome_completo,
+ telefone
+ from tb_inscricoes_cnh_social
+ where telefone like '' or telefone is null;
 
 -- 26. Listar registros com e-mail vazio ou sem @.
+SELECT
+nome_completo,
+email
+from tb_inscricoes_cnh_social
+where email like '' or email  not like '%@%';
 
 -- 27. Listar registros com CEP fora do padrão esperado.
-
+SELECT 
+nome_completo,
+cep 
+from tb_inscricoes_cnh_social
+where cep not like '_____-___';
 -- 28. Criar consulta exibindo Nome, CPF, Cidade, Bairro, Categoria e Situação do E-mail utilizando o CASE.
+SELECT
+nome_completo, cpf, cidade, bairro, categoria_desejada, status_email,
+case 
+when status_email = 1 then 'enviado'
+else 'não enviado'
+end as Situação_do_email
+from tb_inscricoes_cnh_social;
 
 -- 29. Criar relatório por cidade contendo Total de Inscritos, Total PCD e Total de E-mails enviados.
+SELECT
+cidade, count(*) as total_inscritos,
+count(case when eh_pcd = 1 then 1 end) as total_pcd,
+count(case when status_email = 1 then 1 end) as total_emails_enviados
+from tb_inscricoes_cnh_social
+GROUP BY cidade;
+-- Count com o case para filtrar somente o que é 1 e contar, retornando cada total agrupado de de cada cidade.
 
 -- 30. Criar consulta para identificar candidatos prioritários (PCD, maiores de idade, com email enviado e categoria preenchida).
+
+Select  nome_completo, eh_pcd, status_email, categoria_desejada, data_nascimento
+from tb_inscricoes_cnh_social
+where eh_pcd = 1 and status_email = 1 and categoria_desejada is not null and data_nascimento <= DATE_SUB(CURDATE(), INTERVAL 18 YEAR)
+order by data_nascimento desc;
+
+-- Utilizei a mesma operação do exercicio 13 para exibir os maiores de idade. 
