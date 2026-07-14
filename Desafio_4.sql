@@ -33,6 +33,7 @@ CREATE TABLE tb_inscricoes_cnh_social (
 -- 5: listar todos os registros  cadastrados.
 select * from tb_inscricoes_cnh_social;
 
+-- 7: Listar todos os candidatos da cidade de São Luís.
 SELECT
     nome_completo,
     cpf,
@@ -41,7 +42,6 @@ SELECT
 FROM tb_inscricoes_cnh_social
 WHERE
     cidade = 'São Luís';
--- 7: Listar todos os candidatos da cidade de São Luís.
 
 -- 8: Listar candidados que desenham categoria B
 SELECT
@@ -85,6 +85,16 @@ FROM tb_inscricoes_cnh_social
 ORDER BY nome_completo ASC;
 
 -- 12: Consultar candidatos cadastrados após 01/01/2000
+SELECT
+    nome_completo,
+    cpf,
+    cidade,
+    categoria_desejada,
+    data_nascimento
+FROM tb_inscricoes_cnh_social
+WHERE
+    data_nascimento > '2000/01/01'
+ORDER BY data_nascimento ASC;
 
 -- Alterei tipo de dado exibido na coluna data_nascimento, para a consulta retornar corretamente.
 UPDATE tb_inscricoes_cnh_social
@@ -100,16 +110,6 @@ SET
     data_email = STR_TO_DATE(data_email, '%d/%m/%Y %H:%i')
     where data_email is not null and data_email <>'\\N';
 
-SELECT
-    nome_completo,
-    cpf,
-    cidade,
-    categoria_desejada,
-    data_nascimento
-FROM tb_inscricoes_cnh_social
-WHERE
-    data_nascimento > '2000/01/01'
-ORDER BY data_nascimento ASC;
 
 --13: Consultar candidatos maiores de idade.
 
