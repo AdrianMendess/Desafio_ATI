@@ -50,15 +50,15 @@ GROUP BY faixa_etaria ORDER BY faixa_etaria; */
 -- Correrção
 SELECT 
 CASE
- WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24'
- WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34'
- WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44'
- WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59'
- WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 ou mais'
-end as faixa,
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 anos ou mais'
+end as faixa_etaria,
 count(*) as total 
 from tb_inscricoes_cnh_social
-GROUP BY faixa ORDER BY faixa;
+GROUP BY faixa_etaria ORDER BY faixa_etaria;
 
 
 -- 13. Quantidade de inscrições por categoria desejada (A ou B).
@@ -68,8 +68,8 @@ SELECT categoria_desejada, COUNT(*) as total_categoria FROM tb_inscricoes_cnh_so
 
 -- 15. Quantidade de inscrições por condição PCD.
 SELECT CASE
-   WHEN eh_pcd = 1 THEN 'Pessoa com Deficiência' 
-   WHEN eh_pcd = 0 THEN 'Sem Deficiência'
+   WHEN eh_pcd = 1 THEN 'PCD' 
+   WHEN eh_pcd = 0 THEN 'Não PCD'
    WHEN eh_pcd is null THEN 'Não informado' 
  END as PCD, COUNT(*) as total  
  FROM tb_inscricoes_cnh_social GROUP BY eh_pcd ORDER BY total ASC;
@@ -82,28 +82,60 @@ SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade O
 SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total ASC LIMIT 10;
 
 -- 18. Calcular a média de inscrições por município.
-/*SELECT cidade, AVG(total) as media_inscritos
-FROM ( 
-    SELECT cidade, COUNT(*) as total
-    FROM tb_inscricoes_cnh_social
-    GROUP BY cidade
-) as sub
-GROUP BY cidade;*/
+SELECT AVG(total) as media
+FROM 
+(SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade) AS total_por_cidade
+--  Aprendi a usar a subquerry, para fazer a contagem por municipio. E o AVG calculou a media deste resultado.
+
 -- 19. Identificar o município com maior número de inscrições.
 SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total DESC LIMIT 1;
 
 -- 20. Identificar o município com menor número de inscrições
 SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total ASC LIMIT 1;
 
--- 21. Calcular o percentual de inscrições por faixa etária.
+-- 21. Calcular o percentual de inscrições por faixa etária. 
+SELECT 
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 ou mais'
+end as faixa,
+(count(*)/(SELECT COUNT(*) from tb_inscricoes_cnh_social)) * 100 as percentual
+from tb_inscricoes_cnh_social
+GROUP BY faixa ORDER BY faixa;
+-- Aprendi que é possivel usar uma subquerry como valor para a operação de calcula o percentual.
 
 -- 22. Calcular o percentual de inscritos PCD e Não PCD.
+SELECT CASE
+   WHEN eh_pcd = 1 THEN 'PCD' 
+   WHEN eh_pcd = 0 THEN 'Não PCD'
+   WHEN eh_pcd is null THEN 'Não informado' 
+ END as PCD, 
+ (COUNT(*)/ (SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100  as Percentual
+ FROM tb_inscricoes_cnh_social GROUP BY eh_pcd;
 
 -- 23. Calcular o percentual de inscrições por município.
+SELECT cidade, (COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100 as percentual
+FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC;
 
 -- 24. Identificar qual faixa etária representa a maior parcela dos inscritos.
+SELECT 
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 anos ou mais'
+end as faixa_etaria, 
+(count(*)/(SELECT COUNT(*) from tb_inscricoes_cnh_social)) * 100 as percentual
+from tb_inscricoes_cnh_social
+GROUP BY faixa_etaria ORDER BY percentual DESC LIMIT 1;
 
 -- 25. Calcular a participação percentual dos 5 municípios mais inscritos.
+SELECT cidade, (COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100 as percentual
+FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC LIMIT 5;
 
 -- 26. Gerar relatório contendo Município, Total de inscritos e Percentual em relação ao total geral.
 
