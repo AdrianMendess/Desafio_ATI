@@ -18,7 +18,7 @@ SELECT nome_completo FROM tb_inscricoes_cnh_social WHERE eh_pcd = 0;
 -- 6. Exibir os candidatos com idade entre 18 e 24 anos.
 SELECT nome_completo, data_nascimento FROM tb_inscricoes_cnh_social WHERE TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) BETWEEN 18 and 24 ORDER BY data_nascimento DESC;
 -- 7. Exibir os candidatos com idade acima de 60 anos.
-SELECT nome_completo,data_nascimento FROM tb_inscricoes_cnh_social WHERE data_nascimento <=  DATE_SUB(CURDATE(), INTERVAL 60 YEAR) ORDER BY data_nascimento DESC;
+SELECT nome_completo,data_nascimento FROM tb_inscricoes_cnh_social WHERE TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60 ORDER BY data_nascimento DESC;
 
 -- 8. Listar os 100 primeiros registros cadastrados.
 SELECT * FROM tb_inscricoes_cnh_social ORDER BY created_at ASC LIMIT 100 ;
@@ -138,20 +138,53 @@ SELECT cidade, (COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100 
 FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC LIMIT 5;
 
 -- 26. Gerar relatório contendo Município, Total de inscritos e Percentual em relação ao total geral.
+SELECT cidade, COUNT(*) as total, (count(*)/(SELECT count(*) FROM tb_inscricoes_cnh_social)) * 100 as percentual
+FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC;
 
 -- 27. Gerar relatório contendo Faixa etária, Quantidade e Percentual.
+SELECT 
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 ou mais'
+end as faixa_etaria, 
+COUNT(*) as Quantidade, (count(*)/(SELECT COUNT(*) from tb_inscricoes_cnh_social)) * 100 as Percentual
+from tb_inscricoes_cnh_social
+GROUP BY faixa ORDER BY faixa;
 
 -- 28. Gerar relatório diário de inscrições contendo Data, Quantidade e Percentual sobre o total.
+SELECT date(created_at) as dias, COUNT(*) as total_dias, (COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social  WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00')) * 100 as percentual FROM tb_inscricoes_cnh_social WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00' GROUP BY dias ORDER BY dias ASC;
 
 -- 29. Exibir os municípios que possuem mais de 5.000 inscrições.
+SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social  GROUP BY cidade HAVING COUNT(*) >= 5000 ORDER BY total DESC;
+--Having roda após o agrupamento e as funções de agregação rodarem, havia tentado com o where mas a clausula funciona na ordem errada do que era pedido no item.
 
 -- 30. Exibir os municípios que possuem menos de 1.000 inscrições.
+SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade HAVING COUNT(*) <= 1000 ORDER BY total DESC;
 
 -- 31. Criar uma coluna calculada chamada faixa_etaria utilizando CASE.
+SELECT nome_completo, data_nascimento,
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 anos ou mais'
+end as faixa_etaria 
+from tb_inscricoes_cnh_social;
 
 -- 32. Criar uma coluna calculada chamada situacao_pcd.
+SELECT CASE
+   WHEN eh_pcd = 1 THEN 'PCD' 
+   WHEN eh_pcd = 0 THEN 'Não PCD'
+   WHEN eh_pcd is null THEN 'Não informado' 
+ END as Situação_PCD, nome_completo, eh_pcd
+ FROM tb_inscricoes_cnh_social;
 
 -- 33. Classificar municípios utilizando CASE (Grande, Médio e Pequeno Porte).
+
 
 -- 34. Exibir apenas municípios classificados como Grande Porte.
 
