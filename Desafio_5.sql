@@ -181,22 +181,56 @@ SELECT CASE
    WHEN eh_pcd = 0 THEN 'Não PCD'
    WHEN eh_pcd is null THEN 'Não informado' 
  END as Situação_PCD, nome_completo, eh_pcd
- FROM tb_inscricoes_cnh_social;
+ FROM tb_inscricoes_cnh_social ORDER BY nome_completo ASC;
 
 -- 33. Classificar municípios utilizando CASE (Grande, Médio e Pequeno Porte).
-
+SELECT cidade, COUNT(*) as total,
+CASE 
+  WHEN COUNT(*) >= 10000 THEN 'grande porte'
+  WHEN COUNT(*) BETWEEN 1000 and 9999 THEN 'Médio porte'
+  WHEN COUNT(*) < 1000 THEN 'Pequeno porte'
+END as classificacao
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade ORDER BY total DESC;
+-- Utilizei o item 31 como referencia para criar case classificando a contagem de cada cidade.
 
 -- 34. Exibir apenas municípios classificados como Grande Porte.
+SELECT cidade, COUNT(*) as total,
+CASE 
+  WHEN COUNT(*) >= 10000 THEN 'grande porte'
+  WHEN COUNT(*) BETWEEN 1000 and 9999 THEN 'Médio porte'
+  WHEN COUNT(*) < 1000 THEN 'Pequeno porte'
+END as classificacao
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade HAVING total >= 10000 
+ORDER BY total DESC;
 
 -- 35. Contar quantos municípios existem em cada classificação.
+SELECT  classificacao, COUNT(*) as quantidade
+FROM (SELECT cidade, COUNT(*) as total,
+CASE 
+  WHEN COUNT(*) >= 10000 THEN 'grande porte'
+  WHEN COUNT(*) BETWEEN 1000 and 9999 THEN 'Médio porte'
+  WHEN COUNT(*) < 1000 THEN 'Pequeno porte'
+END as classificacao
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade) as subquerry 
+GROUP BY classificacao ORDER BY quantidade ASC;
+-- Utilizei do resultado de uma querry anterior, joguei em uma subquerry agrupada pela cidade, e selecionei a classificacao,a contagem desta subquerry mas agrupada pela classificacao, assim retorna quantas cidades caem em cada condiçao.
 
 -- 36. Criar uma consulta que exiba o ranking dos municípios por quantidade de inscrições.
+SELECT cidade, COUNT(*) as total, RANK() OVER (ORDER BY COUNT(*) DESC) as posicao  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC;
 
 -- 37. Exibir os 5 municípios que representam a maior concentração de inscritos.
+SELECT cidade, COUNT(*) as total, RANK() OVER (ORDER BY COUNT(*) DESC) as posicao  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5;
 
 -- 38. Calcular a média diária de inscrições.
+SELECT AVG(total) as media
+FROM(SELECT date(created_at) as dias, COUNT(*) as total from tb_inscricoes_cnh_social WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00' GROUP BY dias) as subquerry
 
 -- 39. Identificar o dia com maior número de inscrições.
+SELECT date(created_at) dias, COUNT(*) FROM tb_inscricoes_cnh_social GROUP BY
+dias ORDER BY COUNT(*) DESC limit 1; 
 
 -- 40. Identificar o dia com menor número de inscrições.
 
