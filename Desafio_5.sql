@@ -233,13 +233,98 @@ SELECT date(created_at) dias, COUNT(*) FROM tb_inscricoes_cnh_social GROUP BY
 dias ORDER BY COUNT(*) DESC limit 1; 
 
 -- 40. Identificar o dia com menor número de inscrições.
+SELECT date(created_at) dias, COUNT(*) FROM tb_inscricoes_cnh_social GROUP BY
+dias ORDER BY COUNT(*) ASC limit 1; 
 
 -- 41. Calcular o acumulado de inscrições por dia.
+SELECT date(created_at) as Dias, COUNT(*) as total, SUM(COUNT(*)) OVER (ORDER BY date(created_at)) as Total_Acumulado FROM tb_inscricoes_cnh_social GROUP BY Dias ORDER BY date(created_at) ASC;
+-- Somei a contagem feita em cima do created_at com o SUM, que soma a contagem do dia, com o dia anterior retornando o total acumulado.
 
 -- 42. Comparar cada município com a média estadual de inscrições.
+SELECT cidade, COUNT(*) as Total, 
+(SELECT AVG(media) 
+FROM (SELECT COUNT(*) as media from tb_inscricoes_cnh_social GROUP BY cidade)as sub) as Media_Estadual
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade
+ORDER BY total DESC
 
 -- 43. Exibir municípios acima da média estadual.
+SELECT cidade, COUNT(*) as Total, 
+(SELECT AVG(media) 
+FROM (SELECT COUNT(*) as media from tb_inscricoes_cnh_social GROUP BY cidade)as sub) as Media_Estadual
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade
+HAVING Total > Media_Estadual
+ORDER BY total DESC;
 
 -- 44. Exibir municípios abaixo da média estadual.
+SELECT cidade, COUNT(*) as Total, 
+(SELECT AVG(media) 
+FROM (SELECT COUNT(*) as media from tb_inscricoes_cnh_social GROUP BY cidade)as sub) as Media_Estadual
+FROM tb_inscricoes_cnh_social
+GROUP BY cidade
+HAVING Total < Media_Estadual
+ORDER BY total DESC;
 
 -- 45. Produzir um relatório final semelhante aos gráficos apresentados no estudo da CNH Social.
+
+--INSCRIÇÕES POR DIA
+SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social;
+
+ SELECT date(created_at) as dias, COUNT(*) as total_dias from tb_inscricoes_cnh_social WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00' GROUP BY dias ORDER BY dias asc;
+
+SELECT 
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59 anos'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 anos ou mais'
+end as faixa_etaria,
+COUNT(*) as inscricoes_por_faixa
+from tb_inscricoes_cnh_social
+GROUP BY faixa_etaria
+ORDER BY faixa_etaria ASC;
+
+SELECT CASE
+   WHEN eh_pcd = 1 THEN 'PCD' 
+   WHEN eh_pcd = 0 THEN 'Não PCD'
+   WHEN eh_pcd is null THEN 'Não informado' 
+ END as Situacao_PCD, 
+ COUNT(*) as inscricoes_por_PCD
+ FROM tb_inscricoes_cnh_social GROUP BY situacao_PCD;
+
+
+-- INSCRIÇÕES POR DIA (%)
+SELECT DATE(created_at), (COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100 as percentual
+FROM tb_inscricoes_cnh_social GROUP BY DATE(created_at) ORDER BY DATE(created_at) ASC;
+
+SELECT 
+CASE
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 18 and 24 then '18 a 24'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 25 and 34 then '25 a 34'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 35 and 44 then '35 a 44'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) BETWEEN 45 and 59 then '45 a 59'
+ WHEN TIMESTAMPDIFF(year, data_nascimento, curdate()) >= 60  then '60 ou mais'
+end as faixa,
+(count(*)/(SELECT COUNT(*) from tb_inscricoes_cnh_social)) * 100 as percentual
+from tb_inscricoes_cnh_social
+GROUP BY faixa ORDER BY faixa;
+
+SELECT CASE
+   WHEN eh_pcd = 1 THEN 'PCD' 
+   WHEN eh_pcd = 0 THEN 'Não PCD'
+   WHEN eh_pcd is null THEN 'Não informado' 
+ END as PCD, 
+ (COUNT(*)/ (SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100  as Percentual
+ FROM tb_inscricoes_cnh_social GROUP BY eh_pcd;
+
+
+ --TOP 5 E INSCRIÇÕES POR MUNICIO
+SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social;
+
+SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as totaL  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5;
+
+SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC;
+
+
