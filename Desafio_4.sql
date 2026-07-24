@@ -267,3 +267,4 @@ where eh_pcd = 1 and status_email = 1 and categoria_desejada is not null and dat
 order by data_nascimento desc;
 
 -- Utilizei a mesma operação do exercicio 13 para exibir os maiores de idade. 
+
