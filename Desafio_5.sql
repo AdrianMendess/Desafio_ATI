@@ -1,4 +1,4 @@
--- Active: 1782932427960@@127.0.0.1@3306@desafio_3
+-- Active: 1782932427960@@127.0.0.1@3306@db_cnh_social
 
 -- 1. Listar todos os registros ordenados pela data de inscrição mais recente.
 SELECT * FROM tb_inscricoes_cnh_social ORDER BY created_at desc;
@@ -326,6 +326,3 @@ SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social;
 SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as totaL  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5;
 
 SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC;
-
-
-DESCRIBE documentos_pessoa;
