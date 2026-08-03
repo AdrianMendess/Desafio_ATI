@@ -1,6 +1,14 @@
 <?php
-require 'conexao.php';
+                            //MODULO 2
 
+require 'conexao.php';
+$a =[
+    ["select snkds", "cidade", "total"],
+    ["select snkds", "cidade", "total", "porcentagem"],
+    ["select snkds", "cidade", "total"],
+    ["select snkds", "cidade", "total"],
+    ["select snkds", "cidade", "total"],
+];
 $query = "SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social";
 $query1 = "SELECT COUNT(DISTINCT cidade) as total FROM tb_inscricoes_cnh_social";
 $query2 = "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 1";

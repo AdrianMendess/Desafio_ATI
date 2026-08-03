@@ -1,4 +1,8 @@
 <?php
+                        // MODULO 1
+/**
+ @var mysqli $conexao
+*/
 require 'conexao.php';
 
 $sql = "SELECT pessoas.id, nome, id_pessoa, cpf, documentos_pessoa.comprovante_residencia
