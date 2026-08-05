@@ -1,8 +1,8 @@
 <?php
                         // MODULO 1
 /**
- @var mysqli $conexao
-*/
+ @var mysqli $conexao 
+ */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
 require 'conexao.php';
 
 $sql = "SELECT pessoas.id, nome, id_pessoa, cpf, documentos_pessoa.comprovante_residencia

@@ -1,14 +1,8 @@
 <?php
                             //MODULO 2
-
+/** @var mysqli $conexao1 */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
 require 'conexao.php';
-$a =[
-    ["select snkds", "cidade", "total"],
-    ["select snkds", "cidade", "total", "porcentagem"],
-    ["select snkds", "cidade", "total"],
-    ["select snkds", "cidade", "total"],
-    ["select snkds", "cidade", "total"],
-];
+
 $query = "SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social";
 $query1 = "SELECT COUNT(DISTINCT cidade) as total FROM tb_inscricoes_cnh_social";
 $query2 = "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 1";
@@ -17,7 +11,7 @@ $query4 = "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP 
 $query5 = "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total ASC LIMIT 1";
 
 
-$resultado = mysqli_query($conexao1, $query);
+$resultado  = mysqli_query($conexao1, $query);
 $resultado1 = mysqli_query($conexao1, $query1);
 $resultado2 = mysqli_query($conexao1, $query2);
 $resultado3 = mysqli_query($conexao1, $query3);
