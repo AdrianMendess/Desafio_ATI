@@ -4,7 +4,6 @@
 /** @var mysqli $conexao1
  *  @var array $relatorios1
  */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
-
 require 'conexao.php';
 include 'consultas.php';
 ?>
