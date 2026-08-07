@@ -22,10 +22,10 @@ include 'consultas.php';
     <header>
         <h1>Inscrições</h1>
     </header>
-    
+
     <?php foreach ($relatorios1 as $relatorio) { ?>
 
-        <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?> 
+        <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?>
 
         <table>
             <tr>

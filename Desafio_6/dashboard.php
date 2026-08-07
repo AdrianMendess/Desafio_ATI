@@ -1,85 +1,72 @@
 <?php
                             //MODULO 2
-/** @var mysqli $conexao1 */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
+
+/** @var mysqli $conexao1  //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
+ *  @var array $dash */ 
+
 require 'conexao.php';
-
-$query = "SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social";
-$query1 = "SELECT COUNT(DISTINCT cidade) as total FROM tb_inscricoes_cnh_social";
-$query2 = "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 1";
-$query3 = "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 0";
-$query4 = "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total DESC LIMIT 1";
-$query5 = "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total ASC LIMIT 1";
-
-
-$resultado  = mysqli_query($conexao1, $query);
-$resultado1 = mysqli_query($conexao1, $query1);
-$resultado2 = mysqli_query($conexao1, $query2);
-$resultado3 = mysqli_query($conexao1, $query3);
-$resultado4 = mysqli_query($conexao1, $query4);
-$resultado5 = mysqli_query($conexao1, $query5);
+require 'consultas.php';
 
 ?>
-<table>
-    <tr>
-        <th> Total de Inscrições</th>
-    </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado) ?>
-    <tr>
-        <td><?= $linha['total_inscricoes'] ?></td>
 
-    </tr>
-</table>
+<div class="cx">
+    <div class="card">
+        <h3>Total de inscrições</h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[0]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['total_inscricoes']; ?></p>
+    </div>
 
-<table>
-    <tr>
-        <th> Total de Municípios</th>
-    </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado1) ?>
-    <tr>
-        <td><?= $linha['total'] ?></td>
-    </tr>
-</table>
 
-<table>
-    <tr>
-        <th> Total de PCD</th>
-    </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado2) ?>
-    <tr>
-        <td><?= $linha['total'] ?></td>
-    </tr>
-</table>
+    <div class="card">
+        <h3> Total de Municipios </h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[1]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['total']; ?></p>
+    </div>
 
-<table>
-    <tr>
-        <th> Total de Não PCD</th>
-    </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado3) ?>
-    <tr>
-        <td><?= $linha['total'] ?></td>
-    </tr>
-</table>
 
-<table>
-    <tr>
-        <th> Município com maior número de inscrições</th>
-        <th> Total </th>
-        </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado4) ?>
-    <tr>
-        <td><?= $linha['cidade']?></td>
-        <td><?= $linha['total']?></td>
-    </tr>
-</table>
+    <div class="card">
+        <h3> Total de PCD </h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[2]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['total']; ?></p>
+    </div>
 
-<table>
-    <tr>
-        <th> Município com menor número de inscrições</th>
-        <th> Total </th>
-    </tr>
-    <?php $linha = mysqli_fetch_assoc($resultado5) ?>
-    <tr>
-        <td><?= $linha['cidade'] ?></td>
-        <td><?= $linha['total'] ?></td>
-    </tr>
-</table>
+
+    <div class="card">
+        <h3>Total de não PCD</h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[3]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['total']; ?></p>
+    </div>
+
+
+    <div class="card">
+        <h3>Municipio com mais inscrições</h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[4]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['cidade']. ': '. $linha['total']; ?></p>
+    </div>
+
+
+    <div class="card">
+        <h3>Municipio com menos inscrições</h3>
+        <?php
+        $res = mysqli_query($conexao1, $dash[5]['query']);
+        $linha = mysqli_fetch_assoc($res);
+        ?>
+        <p><?= $linha['cidade']. ': '. $linha['total']; ?></p>
+    </div>
+
+</div>

@@ -1,4 +1,5 @@
 <?php
+//Inscrições por agrupamento.
 
 $relatorios1 = [
     ['titulo' => 'Inscrições por Município', 'query' => "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total DESC LIMIT 5"],
@@ -22,6 +23,7 @@ $relatorios1 = [
     ['titulo' => "Relatório diário de inscrições", 'query' => " SELECT date(created_at) as dias, COUNT(*) as total_dias from tb_inscricoes_cnh_social WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00' GROUP BY dias ORDER BY dias asc"]
 ];
 
+// percentual de inscrições por agrupamento.
 $relatorios2 = [
     ['titulo' => "Percentual por faixa etária", 'query' => "SELECT 
  CASE
@@ -49,3 +51,17 @@ $relatorios2 = [
     ['titulo' => "Top 5 Municípios", 'query' => "SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as totaL  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5"]
 ];
 
+// Totais de inscrições.
+$dash = [
+['query' => "SELECT COUNT(*) as total_inscricoes FROM tb_inscricoes_cnh_social"],
+
+['query' => "SELECT COUNT(DISTINCT cidade) as total FROM tb_inscricoes_cnh_social"],
+
+['query' => "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 1"],
+
+['query' => "SELECT COUNT(*) as total FROM tb_inscricoes_cnh_social WHERE eh_pcd = 0"],
+
+['query' => "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total DESC LIMIT 1"],
+
+['query' => "SELECT cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY total ASC LIMIT 1"]
+];

@@ -14,13 +14,13 @@
         <header class="cabecalho">
             <h1>Destaques: CNH Social </h1>
                 <nav>
+                    <a href="dashboard.php">dashboard</a>
                     <a href="relatorios.php">relatorios</a>
                     <a href="relatorios_2.php">relatorios2</a>
                 </nav>
         </header>
-        
-        <div>
-        </div>
-    
+        <main>
+            <?php include 'dashboard.php' ?>            
+        </main>
     </body>
 </html>

@@ -18,31 +18,15 @@ table{
     border-radius: 10px;
 }
 
-.caixa{
+.cabecalho {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 10px;
-    width: 100vw;
-    height: 200px;
-}
-.cabecalho{
-    display: flex;
     justify-content: space-between;
-    height: 30px;
-    margin-top: 25px;
-    margin-bottom: 50px; 
-    align-items: center;
-    padding-inline: 30px;
+    padding: 15px ;
+    background-color: cornflowerblue;
 }
 
-nav{
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: right;
-    text-decoration: none;
-    width: 300px;
+.cabecalho h1 {
+color:azure;
+font-size: 20px;
 }
