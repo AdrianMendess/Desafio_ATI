@@ -1,19 +1,36 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     width: 100vw;
     height: 100vh;
-   overflow-x: hidden;
+    overflow-x: hidden;
 }
-th, td, table, .tab{
+
+.cx {
+    display: flex;
+    flex-wrap: inherit;
+    gap: 10px; 
+    margin-top: 30px;
+}
+.card{
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+th,
+td,
+table,
+.tab {
     border: 1px solid rgb(37, 23, 23);
     margin: 0;
     padding: 5px;
 }
-table{
+
+table {
     width: 250px;
     border-radius: 10px;
 }
@@ -22,11 +39,26 @@ table{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px ;
+    padding: 15px;
     background-color: cornflowerblue;
 }
 
 .cabecalho h1 {
-color:azure;
-font-size: 20px;
+    color: azure;
+    font-size: 20px;
+}
+
+a {
+    padding: 5px;
+    color: azure;
+}
+
+h2 {
+    margin-bottom: 20px;
+    margin-top: 28px;
+}
+
+section{
+    display: flex;
+    flex-wrap: wrap;
 }

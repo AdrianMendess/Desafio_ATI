@@ -19,10 +19,7 @@ include 'consultas.php';
 </head>
 
 <body>
-    <header>
-        <h1>Inscrições</h1>
-    </header>
-
+  
     <?php foreach ($relatorios1 as $relatorio) { ?>
 
         <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?>

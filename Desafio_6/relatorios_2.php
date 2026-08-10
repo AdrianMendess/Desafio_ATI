@@ -20,10 +20,6 @@ include 'consultas.php';
 
 <body>
 
-    <header>
-        <h1> Percentual de Inscrições</h1>
-    </header>
-
     <?php foreach ($relatorios2 as $relatorio) { ?>
 
         <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?>
