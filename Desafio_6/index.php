@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   
     <title>Dashboard</title>
 </head>
 
@@ -22,6 +24,7 @@
         </nav>
     </header>
     <main>
+        
         <section> <!-- Visão geral de inscricções -->
             <?php include 'dashboard.php' ?>
         </section>
@@ -35,6 +38,7 @@
         <section> <!-- Percentual de inscrições -->
             <?php include 'relatorios_2.php' ?>
         </section>
+        
     </main>
 
 

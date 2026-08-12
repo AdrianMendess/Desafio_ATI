@@ -4,7 +4,7 @@
 /** @var mysqli $conexao1  //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
  *  @var array $dash */ 
 
-require 'conexao.php';
+require_once 'conexao.php';
 require 'consultas.php';
 
 ?>

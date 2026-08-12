@@ -4,21 +4,9 @@
 /** @var mysqli $conexao1
  *  @var array $relatorios2
  */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
-require 'conexao.php';
+require_once 'conexao.php';
 include 'consultas.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Percentuais</title>
-</head>
-
-<body>
 
     <?php foreach ($relatorios2 as $relatorio) { ?>
 
@@ -40,6 +28,3 @@ include 'consultas.php';
         <br>
 
     <?php } ?>
-</body>
-
-</html>

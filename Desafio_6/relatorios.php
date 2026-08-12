@@ -4,43 +4,69 @@
 /** @var mysqli $conexao1
  *  @var array $relatorios1
  */ //usado para indicar o tipo de dado e remover o erro que se repetia nas variaveis.
-require 'conexao.php';
+require_once 'conexao.php'; // troquei para o require once para a verificação ser feita somente uma vez.
 include 'consultas.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php foreach ($relatorios1 as $indice => $relatorio) { ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Relatorios</title>
-</head>
+    <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?>
 
-<body>
-  
-    <?php foreach ($relatorios1 as $relatorio) { ?>
+    <h3><?= $relatorio['titulo'] ?></h3>
 
-        <?php $resultado = mysqli_query($conexao1, $relatorio['query']); ?>
+    <?php
+    $cat = [];
+    $val = [];
+    while ($linha = mysqli_fetch_assoc($resultado)) {
 
-        <table>
-            <tr>
-                <th colspan="2"><?= $relatorio['titulo'] ?></th> <!--colspan="2" para deixar o titulo centralizado sobre duas colunas-->
-            </tr>
-            <?php while ($linha = mysqli_fetch_assoc($resultado)) { ?>
-                <tr>
-                </tr>
-                <tr>
-                    <?php foreach ($linha as $chave => $valor) { ?>
-                        <td><?= $valor ?></td>
-                    <?php } ?>
-                </tr>
-            <?php } ?>
-        </table>
-        <br>
+        $av = array_values($linha);
 
-    <?php } ?>
-</body>
+        if (count($av) == 3) {
+            $cat[] = $av[1];
+            $val[] = (int)$av[2];
+        } else {
+            $cat[] = $av[0];
+            $val[] = (int)$av[1];
+        }
+    }
+    ?>
 
-</html>
+    <div id="chart<?= $indice ?>"></div>
+
+    <?php if( $relatorio['tipo_grafico'] == 'pie') { ?>
+
+    <script>
+        var options = {
+             chart: { type: 'pie' },
+            series: <?= json_encode($val) ?>,
+            labels: <?= json_encode($cat) ?>
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart<?= $indice ?>"), options);
+        chart.render();
+    </script>
+
+        <?php } else { ?>
+
+<script>
+        var categorias = <?= json_encode($cat) ?>;
+        var valores = <?= json_encode($val) ?>;
+        var options = {
+            chart: {
+                type: '<?= $relatorio["tipo_grafico"] ?>'
+            },
+            series: [{
+                name: 'Total',
+                data: valores
+            }],
+            xaxis: {
+                categories: categorias
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart<?= $indice ?>"), options);
+        chart.render();
+    </script>
+
+<?php } ?>
+<?php } ?>
