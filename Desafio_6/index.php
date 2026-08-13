@@ -25,17 +25,17 @@
     </header>
     <main>
         
-        <section> <!-- Visão geral de inscricções -->
+        <section class="cards"> <!-- Visão geral de inscricções -->
             <?php include 'dashboard.php' ?>
         </section>
 
         <h2>Relatório de inscrições</h2>
-        <section> <!-- relatorio de inscrições -->
+        <section class="group"> <!-- relatorio de inscrições -->
             <?php include 'relatorios.php' ?>
         </section>
         
-        <h2> Percentual de Inscrições</h2>
-        <section> <!-- Percentual de inscrições -->
+        <h2> Percentuais de Inscrições</h2>
+        <section class="percent"> <!-- Percentual de inscrições -->
             <?php include 'relatorios_2.php' ?>
         </section>
         

@@ -9,16 +9,17 @@ include 'consultas.php';
 ?>
 
 <?php foreach ($relatorios1 as $indice => $relatorio) { // loop com variaveis para pegar o indice e o relatorio em cada volta percorrendo um por um. 
-    ?>
+?>
 
     <?php $resultado = mysqli_query($conexao1, $relatorio['query']); // Executa a query  utilizando a conexão especifica e as querys que armazenei no array de consultas.php.
-    ?> 
+    ?>
 
     <h3><?= $relatorio['titulo'] ?></h3>
 
     <?php
-    $cat = []; // Armazenar array das categorias (chave) do array que será gerado.
-    $val = []; // Armazenar array dos valores do array na sequencia. 
+    $cat = []; // Armazenar a chave que será a categoria do grafico.
+    $val = []; //  Armazenar o valor que será usado no grafico.
+
     while ($linha = mysqli_fetch_assoc($resultado)) { // Percorre cada query e tranforma os resultados em um array.
 
         $av = array_values($linha); // Indexa o array em ordem, substituindo a chave usada na query, para indices apontando para o valor.
@@ -41,8 +42,8 @@ include 'consultas.php';
             var options = {
                 chart: {
                     type: 'pie',
-                    height: 300,
-                    width: 350
+                    height: 500,
+                    width: 500
                 },
                 series: <?= json_encode($val) ?>,
                 labels: <?= json_encode($cat) ?>,
@@ -59,9 +60,7 @@ include 'consultas.php';
             var valores = <?= json_encode($val) ?>;
             var options = {
                 chart: {
-                    type: '<?= $relatorio["tipo_grafico"] ?>',
-                    height: 400,
-                    width: 450
+                    type: '<?= $relatorio["tipo_grafico"] ?>'
                 },
                 series: [{
                     name: 'Total',

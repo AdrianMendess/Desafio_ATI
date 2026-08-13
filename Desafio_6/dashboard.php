@@ -10,6 +10,8 @@ require 'consultas.php';
 ?>
 
 <div class="cx">
+    <div class="divisao">
+
     <div class="card">
         <h3>Total de inscrições</h3>
         <?php
@@ -38,6 +40,9 @@ require 'consultas.php';
         ?>
         <p><?= $linha['total']; ?></p>
     </div>
+    </div>
+
+    <div class="divisao">
 
 
     <div class="card">
@@ -67,6 +72,8 @@ require 'consultas.php';
         $linha = mysqli_fetch_assoc($res);
         ?>
         <p><?= $linha['cidade']. ': '. $linha['total']; ?></p>
+    </div>
+
     </div>
 
 </div>

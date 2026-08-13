@@ -18,10 +18,12 @@ $relatorios1 = [
 
     ['titulo' => "Total por categoria", 'query' => "SELECT categoria_desejada, COUNT(*) as total_categoria FROM tb_inscricoes_cnh_social GROUP BY categoria_desejada ORDER BY total_categoria DESC", 'tipo_grafico' => "pie"],
 
-    ['titulo' => "Ranking de municipios", 'query' => "SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5", 'tipo_grafico' => "bar"],
+    ['titulo' => "Ranking de municipios", 'query' => "SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as total FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 10", 'tipo_grafico' => "bar"],
 
     ['titulo' => "Relatório diário de inscrições", 'query' => " SELECT date(created_at) as dias, COUNT(*) as total_dias from tb_inscricoes_cnh_social WHERE created_at >= '2025-10-02 00:00:00' AND created_at < '2025-11-03 00:00:00' GROUP BY dias ORDER BY dias asc", 'tipo_grafico' => "line"]
 ];
+
+
 
 // percentual de inscrições por agrupamento.
 $relatorios2 = [
@@ -35,7 +37,7 @@ $relatorios2 = [
  end as faixa,
  CONCAT(ROUND((count(*)/(SELECT COUNT(*) from tb_inscricoes_cnh_social)) * 100, 2), '\n%') as percentual
  from tb_inscricoes_cnh_social
- GROUP BY faixa ORDER BY faixa"],
+ GROUP BY faixa ORDER BY faixa", 'tipo_grafico' => 'bar'],
 
     ['titulo' => "Percentual PCD", 'query' => "SELECT CASE
    WHEN eh_pcd = 1 THEN 'PCD' 
@@ -43,12 +45,12 @@ $relatorios2 = [
    WHEN eh_pcd is null THEN 'Não informado' 
  END as PCD, 
  CONCAT(ROUND((COUNT(*)/ (SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100, 2), '\n%') as Percentual
- FROM tb_inscricoes_cnh_social GROUP BY eh_pcd"],
+ FROM tb_inscricoes_cnh_social GROUP BY eh_pcd", 'tipo_grafico' => 'pie'],
 
     ['titulo' => "Participação dos municípios", 'query' => "SELECT cidade, CONCAT(ROUND((COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100, 2), '\n%') as percentual
- FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC LIMIT 5"],
+ FROM tb_inscricoes_cnh_social GROUP BY cidade ORDER BY percentual DESC LIMIT 10", 'tipo_grafico' => 'bar'],
 
-    ['titulo' => "Top 5 Municípios", 'query' => "SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, COUNT(*) as totaL  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY total DESC LIMIT 5"]
+    ['titulo' => "Top 5 Municípios", 'query' => "SELECT RANK() OVER (ORDER BY COUNT(*) DESC) as posicao, cidade, CONCAT(ROUND((COUNT(*)/(SELECT COUNT(*) FROM tb_inscricoes_cnh_social)) * 100, 2), '\n%') as percentual  FROM tb_inscricoes_cnh_social  GROUP BY cidade ORDER BY posicao ASC LIMIT 5", 'tipo_grafico' => 'bar']
 ];
 
 // Totais de inscrições.

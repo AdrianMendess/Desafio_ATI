@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
+    font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -13,22 +15,33 @@ body {
 
 .cx {
     display: flex;
-    flex-wrap: inherit;
-    gap: 10px; 
-    margin-top: 30px;
-}
-.card{
-    border: 1px solid;
-    border-radius: 4px;
+    gap: 10px;
+    flex-direction: column;
 }
 
-th,
-td,
-table,
-.tab {
-    border: 1px solid rgb(37, 23, 23);
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2196F3;
     margin: 0;
-    padding: 5px;
 }
 
 table {
@@ -41,7 +54,8 @@ table {
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    background-color: cornflowerblue;
+    background-color: #df0606;
+    padding-left: 50px;
 }
 
 .cabecalho h1 {
@@ -55,9 +69,28 @@ a {
 }
 
 h2 {
-    margin-bottom: 20px;
-    margin-top: 28px;
+    margin-top: 45px;
+    text-align: center;
+    font-size: 19px;
+    margin-bottom: 45px;
+    text-transform: uppercase;
 }
- main{
+
+main {
     margin-left: 9px;
- }
+}
+
+.divisao {
+    display: flex;
+    justify-content: center;
+}
+
+.group {
+    padding: 45px;
+    padding-top: 0;
+}
+
+.percent {
+    padding: 45px;
+    padding-top: 0;
+}
