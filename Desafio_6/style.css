@@ -7,6 +7,10 @@
     font-family: "Roboto", sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     width: 100vw;
     height: 100vh;
@@ -38,7 +42,7 @@ body {
 }
 
 .card p {
-    font-size: 28px;
+    font-size: 16px;
     font-weight: bold;
     color: #2196F3;
     margin: 0;
@@ -93,4 +97,9 @@ main {
 .percent {
     padding: 45px;
     padding-top: 0;
+}
+.bot{
+    display: flex;
+    justify-content: center;
+    color: #df0e0e49;
 }

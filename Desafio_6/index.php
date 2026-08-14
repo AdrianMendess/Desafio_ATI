@@ -15,31 +15,36 @@
 </head>
 
 <body>
-    <header class="cabecalho">
+    <header class="cabecalho" id="topo">
         <h1>Destaques: CNH Social </h1>
         <nav>
-            <a href="dashboard.php">dashboard</a>
-            <a href="relatorios.php">relatorios inscrições</a>
-            <a href="relatorios_2.php">Percentual de inscrições</a>
+            <a href="#inicio">Cards</a>
+            <a href="#insc">Relatório de inscrições</a>
+            <a href="#perc">Percentual de inscrições</a>
         </nav>
     </header>
     <main>
         
-        <section class="cards"> <!-- Visão geral de inscricções -->
+        <section class="cards" id="inicio"> <!-- Visão geral de inscricções -->
             <?php include 'dashboard.php' ?>
         </section>
 
         <h2>Relatório de inscrições</h2>
-        <section class="group"> <!-- relatorio de inscrições -->
+        <section class="group" id="insc"> <!-- relatorio de inscrições -->
             <?php include 'relatorios.php' ?>
         </section>
         
         <h2> Percentuais de Inscrições</h2>
-        <section class="percent"> <!-- Percentual de inscrições -->
+        <section class="percent" id="perc"> <!-- Percentual de inscrições -->
             <?php include 'relatorios_2.php' ?>
         </section>
         
     </main>
+    <footer>
+        <nav>
+            <a href="#topo" class="bot">⇑ ⇑ ⇑</a>
+        </nav>
+    </footer>
 
 
 </body>
