@@ -1,22 +1,22 @@
 <?php 
-/** @var mysqli $conexao2 */
+// /** @var mysqli $conexao2 */
 
-include_once 'conexao.php';
-if (isset($_POST['submit']))
-  {
+// include_once 'conexao.php';
+// if (isset($_POST['submit']))
+//   {
   
-  $nome = $_POST['nome'];
-  $email = $_POST['email'];
-  $telefone = $_POST['telefone'];
-  $data_nasc = $_POST['data_nascimento'];
-  $cidade = $_POST['cidade'];
+//   $nome = $_POST['nome'];
+//   $email = $_POST['email'];
+//   $telefone = $_POST['telefone'];
+//   $data_nasc = $_POST['data_nascimento'];
+//   $cidade = $_POST['cidade'];
 
 
-  $query = "INSERT INTO usuarios (nome, email, telefone, data_nascimento, cidade ) VALUES ('$nome','$email', '$telefone', '$data_nasc', '$cidade')";
+//   $query = "INSERT INTO usuarios (nome, email, telefone, data_nascimento, cidade ) VALUES ('$nome','$email', '$telefone', '$data_nasc', '$cidade')";
   
-  $resultado = mysqli_query($conexao2, $query);
+//   $resultado = mysqli_query($conexao2, $query);
 
-  }
+//   }
 ?>
 
 <!doctype html>
@@ -30,7 +30,7 @@ if (isset($_POST['submit']))
   <body>
 
     <div class="box">
-      <form action="form2.php" method="post">
+      <form action="form2.php" method="post" id="form">
         <!-- campo de entrada de dados. Action é para onde vai os dados-->
         <fieldset>
           <legend><b>Formulário de Clientes</b></legend>
@@ -96,4 +96,5 @@ if (isset($_POST['submit']))
       </form>
     </div>
   </body>
+    <script src="script.js"></script>
 </html>
