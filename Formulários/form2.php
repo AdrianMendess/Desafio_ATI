@@ -9,10 +9,10 @@
 //   $email = $_POST['email'];
 //   $telefone = $_POST['telefone'];
 //   $data_nasc = $_POST['data_nascimento'];
-//   $cidade = $_POST['cidade'];
+//   $cpf = $_POST['cpf'];
 
 
-//   $query = "INSERT INTO usuarios (nome, email, telefone, data_nascimento, cidade ) VALUES ('$nome','$email', '$telefone', '$data_nasc', '$cidade')";
+//   $query = "INSERT INTO usuarios (nome, email, telefone, data_nascimento, cpf ) VALUES ('$nome','$email', '$telefone', '$data_nasc', '$cpf')";
   
 //   $resultado = mysqli_query($conexao2, $query);
 
@@ -44,6 +44,8 @@
               required
             />
             <label for="nome" class="labelInput">Nome Completo</label>
+            <span id="erroNome" class="mensagemErro"></span>
+
 
           </div>
           <br /><br />
@@ -56,21 +58,26 @@
               required
             />
             <label for="email" class="labelInput">Email</label>
+              <span id="erroEmail" class="mensagemErro"></span>
 
-          </div>
-          <br /><br />
-          <div class="inputBox">
-            <input
+
+            </div>
+            <br /><br />
+            <div class="inputBox">
+              <input
               type="tel"
               name="telefone"
               id="telefone"
               class="inputUser"
               required
-            />
-            <label for="telefone" class="labelInput">Telefone</label>
+              />
+              <label for="telefone" class="labelInput">Telefone</label>
+              <span id="erroTelefone" class="mensagemErro"></span>
+              
 
-          <br>
+              <br>
             <label for="data_nascimento"><b>Data de Nascimento:</b></label>
+            <span id="erroData" class="mensagemErro"></span>
             <input
               type="date"
               name="data_nascimento"
@@ -78,16 +85,17 @@
               required
             />
 
-          <br /><br /><br>
+          <br><br><br>
           <div class="inputBox">
             <input
               type="text"
-              name="cidade"
-              id="cidade"
+              name="cpf"
+              id="cpf"
               class="inputUser"
               required
             />
-            <label for="cidade" class="labelInput">Cidade</label>
+            <label for="cpf" class="labelInput">CPF</label>
+            <span id="erroCpf" class="mensagemErro"></span>
           </div>
           <br />
           
